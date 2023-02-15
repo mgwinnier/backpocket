@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <!--Add buttons to initiate auth sequence and sign out-->
+  <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+  <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+  <button id="update-button" style="display:none" onclick="createSheetCopy()">Create A Copied Sheet</button>
+
+  <pre id="content" style="white-space: pre-wrap;"></pre>
+
+  <script type="text/javascript">
+    /* exported gapiLoaded */
+    /* exported gisLoaded */
+    /* exported handleAuthClick */
+    /* exported handleSignoutClick */
+
+    // TODO(developer): Set to client ID and API key from the Developer Console
+    const CLIENT_ID = '762480932613-ersmt8emcojvsggenh1lmo40bvu01h1j.apps.googleusercontent.com';
+    const API_KEY = 'AIzaSyAsav7hEKLla2FBNTq7WrZI0vH_JXwT7p4';
+
+    // Discovery doc URL for APIs used by the quickstart
+    const DISCOVERY_DOC = 'https://sheets.googleapis.com/$discovery/rest?version=v4';
+
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
+
+    let tokenClient;
+    let gapiInited = false;
+    let gisInited = false;
+
+    document.getElementById('authorize_button').style.visibility = 'hidden';
+    document.getElementById('signout_button').style.visibility = 'hidden';
+
+    /**
+     * Callback after api.js is loaded.
+     */
+    function gapiLoaded() {
+      gapi.load('client', initializeGapiClient);
+    }
+
+    /**
+     * Callback after the API client is loaded. Loads the
+     * discovery doc to initialize the API.
+     */
+    async function initializeGapiClient() {
+      await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: [DISCOVERY_DOC],
+      });
+      gapiInited = true;
+      maybeEnableButtons();
+    }
+
+    /**
+     * Callback after Google Identity Services are loaded.
+     */
+    function gisLoaded() {
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: '', // defined later
+      });
+      gisInited = true;
+      maybeEnableButtons();
+    }
+
+    /**
+     * Enables user interaction after all libraries are loaded.
+     */
+    function maybeEnableButtons() {
+      if (gapiInited && gisInited) {
+        document.getElementById('authorize_button').style.visibility = 'visible';
+      }
+    }
+
+    /**
+     *  Sign in the user upon button click.
+     */
+    function handleAuthClick() {
+      tokenClient.callback = async (resp) => {
+        if (resp.error !== undefined) {
+          throw (resp);
+        }
+        document.getElementById('signout_button').style.visibility = 'visible';
+        document.getElementById('authorize_button').innerText = 'Refresh';
+        document.getElementById('update-button').style.display = 'inline-block';
+      };
+
+      if (gapi.client.getToken() === null) {
+        // Prompt the user to select a Google Account and ask for consent to share their data
+        // when establishing a new session.
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+      } else {
+        // Skip display of account chooser and consent dialog for an existing session.
+        tokenClient.requestAccessToken({ prompt: '' });
+      }
+    }
+
+    /**
+     *  Sign out the user upon button click.
+     */
+    function handleSignoutClick() {
+      const token = gapi.client.getToken();
+      if (token !== null) {
+        google.accounts.oauth2.revoke(token.access_token);
+        gapi.client.setToken('');
+        document.getElementById('content').innerText = '';
+        document.getElementById('authorize_button').innerText = 'Authorize';
+        document.getElementById('signout_button').style.visibility = 'hidden';
+        document.getElementById('update-button').style.visibility = 'hidden';
+      }
+    }
+    function makeApiCall(selectedRoof,cellrow, selectedContact) {
+      var params = {
+        // The ID of the spreadsheet to update.
+        spreadsheetId: '1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8',  // TODO: Update placeholder value.
+
+        // The A1 notation of the values to update.
+        range: "MapView!S" + (cellrow) + ":T" + (cellrow),  // TODO: Update placeholder value.
+
+        // How the input data should be interpreted.
+        valueInputOption: 'RAW',  // TODO: Update placeholder value.
+      };
+
+      var valueRangeBody = {
+        // TODO: Add desired properties to the request body. All existing properties
+        // will be replaced.
+        "values" : [
+          [
+          selectedRoof, selectedContact
+          ]
+        ]
+      };
+
+      var request = gapi.client.sheets.spreadsheets.values.update(params, valueRangeBody);
+      request.then(function(response) {
+        // TODO: Change code below to process the `response` object:
+        console.log(response.result);
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
+    }
+
+    // Create a function to make a copy of a sheet
+    function createSheetCopy() {
+      var SPREADSHEET_ID = "1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8";
+      var SHEET_ID = "0";
+      var newSheetName = new Date().toDateString() + " - Processed Data";
+
+      gapi.client.sheets.spreadsheets.sheets.copyTo({
+        spreadsheetId: SPREADSHEET_ID,
+        sheetId: SHEET_ID,
+        destinationSpreadsheetId: SPREADSHEET_ID
+      }).then(function(response) {
+        var NEW_SHEET_ID = response.result.sheetId;
+        gapi.client.sheets.spreadsheets.batchUpdate({
+          spreadsheetId: SPREADSHEET_ID,
+          resource: {
+            requests: [
+              {
+                updateSheetProperties: {
+                  properties: {
+                    sheetId: NEW_SHEET_ID,
+                    title: newSheetName
+                  },
+                  fields: 'title'
+                }
+              }
+            ]
+          }
+        }).then(function(response) {
+          console.log(response);
+        }, function(reason) {
+          console.error('error: ' + reason.result.error.message);
+        });
+      });
+    }
+  </script>
+  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+      </script>     
+    <title>Roof Identifer</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="map" style="height: 100vh; width: 100%;"></div>
+    <div id="legend" style="position: absolute; bottom: 10px; left: 10px; background-color: white; padding: 10px;">
+      <h3>Legend</h3>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png">
+        </div>
+        <div>Flat Roof</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png">
+        </div>
+        <div>Shingle Roof</div>
+      </div>
+      <div style="display: flex;">
+        <div style="margin-right: 10px;">
+          <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png">
+        </div>
+        <div>Metal Roof</div>
+      </div>
+    <script>
+      // Initialize the map
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: {lat: 38.045377, lng: -84.495359},
+          zoom: 5
+        });
+      }
+      initMap();
+
+      // Load the data from the Google Sheet
+      var markers = [];
+      var colors = {
+        Flat: "yellow",
+        Shingle: "blue",
+        Metal: "green",
+      };
+      $.get("https://sheets.googleapis.com/v4/spreadsheets/1iUCjYpvFWdVs-nWJpDja7LutIYoSzlET5SDJTA0beJ8/values/A1:ZZ?key=AIzaSyC96qsfeNoDK-iZahzJa3ufsa7KdFR_770", function(data) {
+        var rows = data.values;
+        for (var i = 0; i < rows.length; i++) {
+          var address = rows[i][3];
+          var roof = rows[i][16];
+          var contact =rows[i][17]
+          var phone = rows[i][9];
+          var lat = rows[i][14];
+          var lng = rows[i][15];
+          var latLng = new google.maps.LatLng(lat, lng);
+          var marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            title: address,
+            row: i + 1
+        });
+        
+        if (colors[roof]) {
+          marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[roof] + "-dot.png");
+        }
+
+        if(contact === "delete"){
+          marker.setMap(null);
+        }
+
+          markers.push(marker);
+
+          // Add an info window to the marker
+          var content = 'Address: ' + address + '<br>Phone: ' + phone + '<br><br>';
+          content += '<select id="roof-select-' + i + '">' +
+            '<option value="default">Select a Roof Type</option>' +
+            '<option value="Flat"' + (roof === 'Flat' ? ' selected' : '') + '>Flat Roof</option>' +
+            '<option value="Shingle"' + (roof === 'Shingle' ? ' selected' : '') + '>Shingle Roof</option>' +
+            '<option value="Metal"' + (roof === 'Metal' ? ' selected' : '') + '>Metal Roof</option>' +
+            '</select><br><br>';
+          content += '<select id="contact-select-' + i + '">' +
+            '<option value="default">Select a Contact Status</option>' +
+            '<option value="called"' + (contact === 'called' ? ' selected' : '') + '>Called</option>' +
+            '<option value="emailed"' + (contact === 'emailed' ? ' selected' : '') + '>Emailed</option>' +
+            '<option value="mailed"' + (contact === 'mailed' ? ' selected' : '') + '>Mailed</option>' +
+            '<option value="none"' + (contact === 'none' ? ' selected' : '') + '>None</option>' +
+            '<option value="delete"' + (contact === 'delete' ? ' selected' : '') + '>Delete Lead</option>' +
+            '</select><br><br>';
+          content += '<button id="update-button-' + i + '">Update</button>';
+
+          var infoWindow = new google.maps.InfoWindow({
+            content: content
+          });
+
+
+          marker.addListener('click', (function(marker, i, infoWindow) {
+          return function() {
+            infoWindow.open(map, marker);
+          };
+        })(marker, i, infoWindow));
+
+          // Add an event listener to the update button in the info wind
+
+          google.maps.event.addListener(infoWindow, 'domready', (function(marker, i) {
+            return function() {
+              $("#update-button-" + i).click(function() {
+                var selectedRoof = $("#roof-select-" + i).val();
+                var selectedContact = $("#contact-select-" + i).val();
+                if (selectedRoof !== "default") {
+                  marker.roof = selectedRoof;
+                  marker.setMap(null);
+                  marker.setIcon("http://maps.google.com/mapfiles/ms/icons/" + colors[selectedRoof] + "-dot.png");
+                  marker.setMap(map);
+                  infoWindow.close();
+                }
+                if (selectedContact === "delete") {
+                  marker.setMap(null);
+                  infoWindow.close();
+                } else if (selectedContact !== "default") {
+                  marker.contact = selectedContact;
+                }
+                var cellrow = marker.row
+                console.log(marker.row);
+                makeApiCall(selectedRoof,cellrow,selectedContact)
+              });
+            };
+          })(marker, i)); 
+          }
+        }
+      );
+  </script>
+  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+</body>
+</html>
