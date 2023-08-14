@@ -1,0 +1,512 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #82a2e4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color:  white;
+}
+
+.logo-container img {
+    max-width: 150px;
+    height: auto;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+a {
+    color: #476ad0;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #82a2e4;
+}
+
+
+.hero {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    color: white;
+}
+
+.cta {
+    background-color: grey;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+
+.features {
+    text-align: center;
+    margin-top: 10px;
+    background-color: #D3D3D3; /* new: background color */
+    padding: 10px; /* new: padding */
+}
+
+.features h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.grid-item {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 10px;
+    flex-basis: 20%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.grid-item h3 {
+    margin: 20px 0;
+    font-size: 1.5em;
+}
+
+.grid-item img {
+    width: 70%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 5px;
+}
+
+footer {
+    background-color: #82a2e4;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer-content p {
+    margin: 5px;
+    line-height: 1.5;
+}
+
+.footer-content a {
+    color: #1e5ebf;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
+/* existing content */
+/* new styles for contact section */
+.contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: white;
+    color: #82a2e4;
+}
+
+.contact h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.contact-items {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1200px; /* or the width that fits your design */
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px; /* more spacing */
+    width: 300px; /* adjust as needed */
+}
+
+.contact-item p {
+    margin: 0;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.cta-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #82a2e4; /* grey color */
+    color: #fff;
+    padding: 20px 20px; /* adjusted padding for less width and more height */
+    border-radius: 5px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+    width: 90%; /* slightly less width */
+    font-weight: bold;
+    font-size: 1.1em;
+    min-height: 70px; /* longer buttons */
+    text-transform: none; /* no text transformation */
+}
+
+.cta-contact:hover {
+    background-color: #b3b3b3; /* lighter grey on hover */
+    color: #fff;
+}
+
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 767px) {
+    .grid-item {
+        flex-basis: 100%; /* On small screens, each item takes up the full width */
+    }
+}
+
+/* Media query for screens between 768px and 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grid-item {
+        flex-basis: 48%; /* On medium screens, two items fit per row */
+    }
+}
+
+/* Media query for screens larger than 1024px */
+@media (min-width: 1024px) {
+    .grid-item {
+        flex-basis: 23%; /* On large screens, four items fit per row */
+    }
+}
+
+body#about-page {
+    background-color: #D3D3D3;
+}
+
+.about-section {
+    width: 80%;
+    margin: auto;
+    padding: 30px 0;
+    line-height: 1.6;
+}
+
+.about-section h1, .about-section h2 {
+    color: #476ad0;
+    margin-bottom: 20px;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.about-intro {
+    margin-bottom: 40px;
+    text-indent: 30px;
+}
+
+.team-section {
+    background-color: #82a2e4;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;  
+    flex-direction: column; /* Set direction to column to ensure the heading is above the team members */
+    align-items: center; /* Center align the items */
+}
+
+.team-member-wrapper {
+    width: 100%;
+    display: flex;  /* Add flex display to team member wrapper */
+    justify-content: space-around;  /* Distribute space evenly around the team members */
+    flex-wrap: wrap;  /* Allow the team members to wrap to the next line if there isn't enough space */
+}
+
+.team-section h2 {
+    color: black;
+}
+
+.team-member {
+    display: flex;
+    flex-direction: row;  
+    align-items: center;  
+    margin: 20px 0; /* Add vertical margin */
+    width: calc(100% / 3 - 20px);  
+    background-color: #c0ceef;  
+    padding: 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.team-info {
+    margin-left: 20px;
+}
+
+.team-image {
+    width: 100px;  
+    height: 100px;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.team-member h3 {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.team-member p {
+    margin-bottom: 0;
+    font-size: 14px;
+    width: 70%;
+}
+
+
+.product-section {
+    background-color: #82a2e4;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-section h2 {
+    color: black;
+}
+
+/* How It Works Page Styles */
+
+body#how-it-works-page {
+    background-color: #D3D3D3;
+}
+
+.how-it-works-header {
+    width: 80%;
+    margin: auto;
+    padding: 30px 0;
+    line-height: 1.6;
+}
+
+.how-it-works-header h1, 
+.how-it-works-header h2 {
+    color: #476ad0;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Ensure the font size is consistent with About Us page headers */
+.how-it-works-header h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.how-it-works-header h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-indent: 30px;
+}
+
+
+.flowchart-section {
+    text-align: center;
+    margin: 0 auto 50px auto;
+    background-color: #D3D3D3
+}
+
+.flowchart-section img {
+    max-width: 55%; /* reduce size for better aesthetics */
+    height: auto;
+    background-color: white;
+    border-radius: 50px;
+
+}
+
+
+.video-section {
+    text-align: center;
+    padding: 40px 0;
+    background-color: #c0ceef;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 1000px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+.video-section video {
+    max-width: 80%; /* consistent with the flowchart image */
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.faq-content {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background-color: #D3D3D3; /* Setting the background to white */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.faq-content h1, 
+.faq-content h2 {
+    color: #476ad0;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.faq-content h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.faq-content h2 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.faq-content h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.faq-content p {
+    margin-bottom: 1rem;
+}
+
+.faq-item {
+    margin-bottom: 1.5rem;
+}
+
+/* Hover effect for interactivity */
+.faq-item:hover {
+    background-color: #f9f9f9;
+}
+
+/* This is optional; a transition for smooth hover effect */
+.faq-item {
+    transition: background-color 0.3s;
+}
+
+.faq-content footer {
+    background-color: #ffffff;  /* Setting the footer background to white */
+}
+
+.faq-content .footer-content p {
+    color: #000;  /* Setting the paragraph text to black */
+    margin: 0;  /* Removing any default margin */
+    padding: 1rem;  /* Providing some padding for spacing */
+}
+
+.contact-text {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.contact-section h1 {
+    color: #476ad0;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto; /* centers the card */
+    margin-bottom: 119px;
+}
+
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#contact-form input[type="text"],
+#contact-form input[type="email"],
+#contact-form input[type="company"],
+#contact-form input[type="phone"],
+#contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#contact-form input[type="text"]:focus,
+#contact-form input[type="email"]:focus,
+#contact-form input[type="company"]:focus,
+#contact-form input[type="phone"]:focus,
+#contact-form textarea:focus {
+    border-color: #007bff;
+}
+
+#contact-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+#contact-form button:hover {
+    background-color: #0056b3;
+}
