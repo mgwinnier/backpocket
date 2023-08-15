@@ -510,3 +510,33 @@ body#how-it-works-page {
 #contact-form button:hover {
     background-color: #0056b3;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2em; /* Reduce font size */
+    }
+
+    .grid-item {
+        flex-basis: 45%; /* Make grid items take up almost half the screen width */
+        margin: 5px;
+    }
+
+    nav ul li {
+        margin-right: 10px; /* Reduce spacing between nav items */
+    }
+
+    .cta {
+        padding: 5px 10px; /* Reduce button size */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.5em; /* Reduce font size even further */
+    }
+
+    .grid-item {
+        flex-basis: 100%; /* Make grid items full width on very small screens */
+    }
+}
