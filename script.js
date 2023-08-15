@@ -24,4 +24,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
       });
     });
   });
-  
+
+  document.querySelector(".hamburger-menu").addEventListener("click", function() {
+    var nav = document.querySelector(".nav-list");
+    if (nav.style.display === "none" || nav.style.display === "") {
+        nav.style.display = "flex";
+    } else {
+        nav.style.display = "none";
+    }
+});

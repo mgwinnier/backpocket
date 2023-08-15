@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 body {
     font-family: Arial, sans-serif;
     background-color: #82a2e4;
@@ -17,6 +24,21 @@ header {
 .logo-container img {
     max-width: 150px;
     height: auto;
+}
+
+.hamburger-menu {
+    display: none; /* Hide hamburger by default */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.nav-list {
+    display: flex; /* Show the nav list by default for non-mobile */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul {
@@ -106,7 +128,7 @@ a:hover {
 }
 
 .grid-item img {
-    width: 70%;
+    width: 80%;
     height: auto;
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -200,30 +222,10 @@ footer {
 }
 
 
-/* Media query for screens smaller than 768px */
-@media (max-width: 767px) {
-    .grid-item {
-        flex-basis: 100%; /* On small screens, each item takes up the full width */
-    }
-}
-
-/* Media query for screens between 768px and 1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .grid-item {
-        flex-basis: 48%; /* On medium screens, two items fit per row */
-    }
-}
-
-/* Media query for screens larger than 1024px */
-@media (min-width: 1024px) {
-    .grid-item {
-        flex-basis: 23%; /* On large screens, four items fit per row */
-    }
-}
-
 body#about-page {
     background-color: #D3D3D3;
 }
+
 
 .about-section {
     width: 80%;
@@ -258,10 +260,11 @@ body#about-page {
 
 .team-member-wrapper {
     width: 100%;
-    display: flex;  /* Add flex display to team member wrapper */
-    justify-content: space-around;  /* Distribute space evenly around the team members */
-    flex-wrap: wrap;  /* Allow the team members to wrap to the next line if there isn't enough space */
+    display: flex;  
+    justify-content: space-around; 
+    flex-wrap: wrap;  /* Ensures elements can wrap when there's no horizontal space */
 }
+
 
 .team-section h2 {
     color: black;
@@ -269,18 +272,23 @@ body#about-page {
 
 .team-member {
     display: flex;
-    flex-direction: row;  
-    align-items: center;  
-    margin: 20px 0; /* Add vertical margin */
-    width: calc(100% / 3 - 20px);  
-    background-color: #c0ceef;  
+    flex-direction: column; /* Switch direction to column */
+    align-items: center; /* Center items horizontally */
+    margin: 20px 0;
     padding: 20px;
+    width: 100%;  
+    background-color: #c0ceef;  
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
 
+
 .team-info {
-    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align content to the start */
+    width: 100%; /* Take up the full width */
+    margin-top: 20px; /* Add a little space above */
 }
 
 .team-image {
@@ -292,8 +300,8 @@ body#about-page {
 
 .team-member h3 {
     font-weight: bold;
-    margin-bottom: 5px;
-    margin-right: 5px;
+    text-align: center; /* Center the text within h3 */
+    margin-top: 10px; /* Space between the image and h3 */
 }
 
 .team-member p {
@@ -454,6 +462,7 @@ body#how-it-works-page {
     text-transform: uppercase;
     letter-spacing: 2px;
     text-align: center;
+    margin-top: 30px;
 }
 
 .card {
@@ -511,32 +520,77 @@ body#how-it-works-page {
     background-color: #0056b3;
 }
 
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2em; /* Reduce font size */
-    }
-
+/* ... (previous styles) ... */
+/* Media query for screens smaller than 768px */
+@media (max-width: 767px) {
     .grid-item {
-        flex-basis: 45%; /* Make grid items take up almost half the screen width */
-        margin: 5px;
+        flex-basis: 100%; /* On small screens, each item takes up the full width */
     }
-
-    nav ul li {
-        margin-right: 10px; /* Reduce spacing between nav items */
-    }
-
-    .cta {
-        padding: 5px 10px; /* Reduce button size */
+    .grid {
+        justify-content: center; /* Center items horizontally for mobile */
     }
 }
 
-@media (max-width: 480px) {
-    .hero h1 {
-        font-size: 1.5em; /* Reduce font size even further */
+@media (min-width: 768px) {
+    .team-member {
+        width: calc(100% / 3 - 20px);
+    }
+}
+
+.team-info {
+    flex: 1; /* Allow the team info to take up any available space */
+    margin-left: 20px;
+    word-wrap: break-word; /* Allows long words to be broken and wrap onto the next line */
+}
+
+.team-member p {
+    margin-bottom: 0;
+    font-size: 14px;
+    width: 100%; /* Allow paragraph to take up full width of its container */
+}
+
+
+/* Mobile view */
+@media (max-width: 767px) {
+    /* ... Other styles ... */
+
+    /* Ensure team members stay within the .team-section */
+    .team-member-wrapper {
+        flex-direction: column;
+        align-items: center;
     }
 
-    .grid-item {
-        flex-basis: 100%; /* Make grid items full width on very small screens */
+    .team-member {
+        flex-direction: column;
+        align-items: center;
+        width: 90%; /* Adjust this to suit your needs, maybe 100% */
+        padding: 15px 10px; /* Reduce padding to give more space for content */
+    }
+
+    .team-info {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+@media (max-width: 767px) {
+    .hamburger-menu {
+        display: block; /* Show hamburger on mobile */
+    }
+
+    .nav-list {
+        display: none; /* Hide the nav list initially on mobile */
+        flex-direction: column; /* stack the list items on mobile */
+        width: 100%;
+    }
+
+    .nav-active {
+        display: flex;
+    }
+}
+
+@media (max-width: 767px) {
+    .flowchart-section img {
+        max-width: 100%;
+        margin: 0 auto; /* Center the image if needed */
     }
 }
